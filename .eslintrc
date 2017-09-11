@@ -1,0 +1,9 @@
+{
+  "extends": ["./node_modules/eslint-tools-m6web/.eslintrc"],
+  "env": {
+    "jasmine": true
+  },
+  "globals": {
+    "jest": true
+  }
+}

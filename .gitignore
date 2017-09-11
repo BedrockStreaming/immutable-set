@@ -1,0 +1,5 @@
+# build files are only available in npm release
+lib/
+
+node_modules/
+
