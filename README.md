@@ -29,12 +29,13 @@ yarn add immutable-set
 
 ## Parameters
 
-name | description | type
----- | ----------- | ----
+name | description | type | default
+---- | ----------- | ---- | -------
 base | object to modify | object
-path | list of keys to access the value to being modified | array
+path | list of keys to access the value to being modified | array or string
 value | value to set | any
-withArray (optional)| if set to `true` number will be interpreted has array indexes | boolean
+withArray (optional)| if set to `true` number will be interpreted has array indexes | boolean | false
+equality (optional) | if provided, the function will be used to determine if the value at the path is equal to the value provided | function | `===`
 
 ## Usage
 Import `set` function
@@ -61,3 +62,4 @@ const newState = set(state, 'a[0].b', 42, true);
  */
 ```
 
+The function mutates the object only if the value is not already present in the object

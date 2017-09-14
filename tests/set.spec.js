@@ -106,4 +106,21 @@ describe('set', () => {
     expect(set(null, 'a.list[0]', 3, true)).toEqual({ a: { list: [3] } });
     expect(set(null, 'a[0].b', 42, true)).toEqual({ a: [{ b: 42 }] });
   });
+
+  it('should use equality function', () => {
+    const base = freeze({
+      a: [{ id: 1, foo: 'bar', version: 1 }, { id: 2, foo: 'foobar', version: 1 }],
+    });
+
+    const equality = (a, b) => a.id === b.id && a.version === b.version;
+
+    expect(set(base, ['a', 0], { id: 1, version: 1 }, true, equality)).toBe(base);
+    expect(set(base, ['a', 0], { id: 1, version: 1, foo: 'foo' }, true, equality)).toBe(base);
+    expect(set(base, ['a', 0], { id: 1 }, true, equality)).toEqual({
+      a: [{ id: 1 }, { id: 2, foo: 'foobar', version: 1 }],
+    });
+    expect(set(base, ['a', 1], { id: 1, foo: 'bar', version: 1 }, true, equality)).toEqual({
+      a: [{ id: 1, foo: 'bar', version: 1 }, { id: 1, foo: 'bar', version: 1 }],
+    });
+  });
 });

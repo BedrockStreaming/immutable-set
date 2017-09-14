@@ -1,10 +1,14 @@
-function recursiveEqual(base, path, value) {
+function recursiveEqual(base, path, value, equality) {
   if (!base || typeof base !== 'object') {
     return false;
   }
   const [key, nextKey] = path;
 
-  return nextKey === undefined ? base[key] === value : recursiveEqual(base[key], path.slice(1), value);
+  if (nextKey === undefined) {
+    return equality ? equality(base[key], value) : base[key] === value;
+  }
+
+  return recursiveEqual(base[key], path.slice(1), value, equality);
 }
 
 function set(base, path, value, withArrays) {
@@ -38,7 +42,7 @@ function set(base, path, value, withArrays) {
   };
 }
 
-export default function safeSet(base, initialPath, value, withArrays = false) {
+export default function safeSet(base, initialPath, value, withArrays = false, equality) {
   let path = initialPath;
 
   if (typeof path === 'string' && path.length > 0) {
@@ -61,7 +65,7 @@ export default function safeSet(base, initialPath, value, withArrays = false) {
   }
 
   // If the value is already here we just need to return the base
-  if (recursiveEqual(base, path, value)) {
+  if (recursiveEqual(base, path, value, equality)) {
     return base;
   }
 
