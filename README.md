@@ -47,6 +47,8 @@ Then set the property you want in your object
 
 ```js
 const newState = set(state, ['a', 0, 'b'], 42, true);
+// or
+const newState = set(state, 'a[0].b', 42, true);
 /*
  newState => {
                a: [
