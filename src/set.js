@@ -42,7 +42,8 @@ function set(base, path, value, withArrays) {
   };
 }
 
-export default function safeSet(base, initialPath, value, withArrays = false, equality) {
+export default function safeSet(base, initialPath, value, options = {}) {
+  const { withArrays = false, equality } = options;
   let path = initialPath;
 
   if (typeof path === 'string' && path.length > 0) {

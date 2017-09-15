@@ -29,13 +29,19 @@ yarn add immutable-set
 
 ## Parameters
 
+name | description | type | requiered
+---- | ----------- | ---- | ---------
+base | object to modify | object | ✅
+path | list of keys to access the value to being modified | array or string | ✅
+value | value to set | any | ✅
+options | options... | object
+
+### Options
 name | description | type | default
 ---- | ----------- | ---- | -------
-base | object to modify | object
-path | list of keys to access the value to being modified | array or string
-value | value to set | any
-withArray (optional)| if set to `true` number will be interpreted has array indexes | boolean | false
-equality (optional) | if provided, the function will be used to determine if the value at the path is equal to the value provided | function | `===`
+withArray | if set to `true` number will be interpreted has array indexes | boolean | false
+equality  | if provided, the function will be used to determine if the value at the path is equal to the value provided | function | `===`
+
 
 ## Usage
 Import `set` function
