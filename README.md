@@ -54,19 +54,63 @@ import set from 'immutable-set';
 Then set the property you want in your object
 
 ```js
-const newState = set(state, ['a', 0, 'b'], 42, true);
+const newState = set(state, ['a', 'b'], 42);
 // or
-const newState = set(state, 'a[0].b', 42, true);
+const newState = set(state, 'a.b', 42);
 /*
  newState => {
-               a: [
-                 {
-                   b: 42,
-                 },
-               ],
+               a: {
+                 b: 42,
+               },
                ...
              }
  */
 ```
 
-The function mutates the object only if the value is not already present in the object
+The function mutates the object only if the value is not already present in the object.
+
+## Advanced usage
+
+### with arrays
+The option `withArrays` allow to dynamically create arrays when the current level is empty and the current path key is a number.
+```js
+let base = set({}, ['a', 0], 12, { withArrays: true });
+// will return { a: [12] }
+```
+
+### safe
+The option `safe` will verify if the value is not already in the object.
+```js
+const base = { a: 2 };
+set(base, 'a', 2, { safe: true })
+// will return the base unmodified
+```
+
+### equality
+The option `equality` allow to use an other equality function instead of `===`. It has to be used with `safe` option.
+```js
+const base = { a: { id: 1, v: 0 } };
+const equality = (a, b) => a.id === b.id && a.v === b.v };
+
+set(base, 'a', { id: 1, v: 0 }, { safe: true, equality);
+// will return the base unmodified
+
+set(base, 'a', { id: 1, v: 1 }, { safe: true, equality);
+// will return { a: { id: 1, v: 1 } }
+```
+
+### multiple set
+It is possible to set multiple elements at once, providing multiple keys in the path and an array (or an object) in value.
+```js
+set({}, ['a', ['b', 'c']], [12, 13]);
+// or
+set({}, ['a', ['b', 'c']], { b: 12, c: 13 });
+// will return { a: { b: 12, c: 13 } }
+
+
+set({}, ['a', [0, 1 ]], [12, 13], { withArrays: true });
+// will return { a: [12, 13] }
+```
+- :warning: If the array of keys is not the last element of the path, the rest of the path will be used for each sub tree.
+- :warning: It's not possible to set objects in array with object sub values, this will throw an error.
+- :warning: For now safe mode does not work with multiple set.

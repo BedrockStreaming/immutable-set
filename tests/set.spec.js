@@ -3,7 +3,7 @@ import set from '../src/set';
 
 jest.unmock('../src/set.js');
 
-describe('set', () => {
+describe('simple set', () => {
   it('should assign to object path without mutating', () => {
     // Given
     const obj = freeze({ foo: { bar: 2 } });
@@ -124,5 +124,104 @@ describe('set', () => {
     expect(set(base, ['a', 1], { id: 1, foo: 'bar', version: 1 }, { withArrays: true, equality, safe: true })).toEqual({
       a: [{ id: 1, foo: 'bar', version: 1 }, { id: 1, foo: 'bar', version: 1 }],
     });
+  });
+});
+
+describe('multiple set', () => {
+  it('should set objects in object with object sub values', () => {
+    const base = freeze({
+      a: {
+        b: {
+          1: { id: 1 },
+          2: { id: 2 },
+          3: { id: 3 },
+        },
+      },
+    });
+
+    const expected = {
+      a: {
+        b: {
+          1: { id: 1 },
+          2: { id: 2, foo: 'bar' },
+          3: { id: 3 },
+          4: { id: 4 },
+          c: { id: 'c' },
+        },
+      },
+    };
+
+    const path = ['a', 'b', ['2', '4', 'c']];
+    const values = { 2: { id: 2, foo: 'bar' }, 4: { id: 4 }, c: { id: 'c' } };
+
+    expect(set(base, path, values)).toEqual(expected);
+  });
+
+  it('should set objects in object with array sub values', () => {
+    const base = freeze({
+      a: {
+        b: {
+          1: { id: 1 },
+          2: { id: 2 },
+          3: { id: 3 },
+        },
+      },
+    });
+
+    const expected = {
+      a: {
+        b: {
+          1: { id: 1 },
+          2: { id: 2, foo: 'bar' },
+          3: { id: 3 },
+          4: { id: 4 },
+          c: { id: 'c' },
+        },
+      },
+    };
+
+    const path = ['a', 'b', ['2', '4', 'c']];
+    const values = [{ id: 2, foo: 'bar' }, { id: 4 }, { id: 'c' }];
+
+    expect(set(base, path, values)).toEqual(expected);
+  });
+
+  it('should throw an error when trying to set objects in array with object sub values', () => {
+    const base = freeze({
+      a: {
+        b: [{ id: 1 }, { id: 2 }, { id: 3 }],
+      },
+    });
+
+    const path = ['a', 'b', [1, 3, 8]];
+    const values = { 1: { id: 2, foo: 'bar' }, 3: { id: 4 }, 8: { id: 'c' } };
+
+    try {
+      set(base, path, values);
+      expect(false)
+        .toBeTruthy()
+        .as('Error should have been raised');
+    } catch (err) {
+      expect(err.message).toBe('Can not use object values with array in path');
+    }
+  });
+
+  it('should set objects in array with array sub values', () => {
+    const base = freeze({
+      a: {
+        b: [{ id: 1 }, { id: 2 }, { id: 3 }],
+      },
+    });
+
+    const expected = {
+      a: {
+        b: [{ id: 1 }, { id: 2, foo: 'bar' }, { id: 3 }, { id: 4 }, { id: 'c' }],
+      },
+    };
+
+    const path = ['a', 'b', [1, 3, 8]];
+    const values = [{ id: 2, foo: 'bar' }, { id: 4 }, { id: 'c' }];
+
+    expect(set(base, path, values)).toEqual(expected);
   });
 });
