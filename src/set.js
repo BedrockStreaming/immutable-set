@@ -43,7 +43,7 @@ function set(base, path, value, withArrays) {
 }
 
 export default function safeSet(base, initialPath, value, options = {}) {
-  const { withArrays = false, equality } = options;
+  const { withArrays = false, equality, safe } = options;
   let path = initialPath;
 
   if (typeof path === 'string' && path.length > 0) {
@@ -66,7 +66,7 @@ export default function safeSet(base, initialPath, value, options = {}) {
   }
 
   // If the value is already here we just need to return the base
-  if (recursiveEqual(base, path, value, equality)) {
+  if (safe && recursiveEqual(base, path, value, equality)) {
     return base;
   }
 

@@ -88,7 +88,7 @@ describe('set', () => {
 
   it('should not modify the base if the value is already there', () => {
     const foo = { a: { b: [3] } };
-    expect(set(foo, ['a', 'b', 0], 3)).toBe(foo);
+    expect(set(foo, ['a', 'b', 0], 3, { safe: true })).toBe(foo);
   });
 
   it('should reform object', () => {
@@ -114,12 +114,14 @@ describe('set', () => {
 
     const equality = (a, b) => a.id === b.id && a.version === b.version;
 
-    expect(set(base, ['a', 0], { id: 1, version: 1 }, { withArrays: true, equality })).toBe(base);
-    expect(set(base, ['a', 0], { id: 1, version: 1, foo: 'foo' }, { withArrays: true, equality })).toBe(base);
-    expect(set(base, ['a', 0], { id: 1 }, { withArrays: true, equality })).toEqual({
+    expect(set(base, ['a', 0], { id: 1, version: 1 }, { withArrays: true, equality, safe: true })).toBe(base);
+    expect(set(base, ['a', 0], { id: 1, version: 1, foo: 'foo' }, { withArrays: true, equality, safe: true })).toBe(
+      base,
+    );
+    expect(set(base, ['a', 0], { id: 1 }, { withArrays: true, equality, safe: true })).toEqual({
       a: [{ id: 1 }, { id: 2, foo: 'foobar', version: 1 }],
     });
-    expect(set(base, ['a', 1], { id: 1, foo: 'bar', version: 1 }, { withArrays: true, equality })).toEqual({
+    expect(set(base, ['a', 1], { id: 1, foo: 'bar', version: 1 }, { withArrays: true, equality, safe: true })).toEqual({
       a: [{ id: 1, foo: 'bar', version: 1 }, { id: 1, foo: 'bar', version: 1 }],
     });
   });

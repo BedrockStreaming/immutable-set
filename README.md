@@ -41,6 +41,7 @@ name | description | type | default
 ---- | ----------- | ---- | -------
 withArray | if set to `true` number will be interpreted has array indexes | boolean | false
 equality  | if provided, the function will be used to determine if the value at the path is equal to the value provided | function | `===`
+safe | verify if the value does not already exist | boolean | false
 
 
 ## Usage
