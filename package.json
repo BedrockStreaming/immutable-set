@@ -1,6 +1,6 @@
 {
   "name": "immutable-set",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Set nested properties of an object while respecting the principles of immutability",
   "main": "lib/set.js",
   "author": "M6Web",
@@ -9,7 +9,10 @@
     "type": "git",
     "url": "https://github.com/M6Web/immutable-set.git"
   },
-  "files": ["src/", "lib/"],
+  "files": [
+    "src/",
+    "lib/"
+  ],
   "scripts": {
     "build": "babel src --out-dir lib",
     "babel-watch": "babel src --out-dir lib --watch",
