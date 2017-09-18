@@ -9,6 +9,7 @@
     "type": "git",
     "url": "https://github.com/M6Web/immutable-set.git"
   },
+  "files": ["src/", "lib/"],
   "scripts": {
     "build": "babel src --out-dir lib",
     "babel-watch": "babel src --out-dir lib --watch",
