@@ -44,13 +44,17 @@ const reduceWithArray = setFunction =>
    * @param accumulator new instance of the array at the current level
    * @returns {*} the accumulator with the new elements
    */
-  (base, path, keys, nextKey, values, withArrays, accumulator) => {
-    if (!Array.isArray(values)) {
+  (base, path, keys, nextKey, values, { withArrays, sameValue }, accumulator) => {
+    if (!Array.isArray(values) && !sameValue) {
       throw new Error('Can not use object values with array in path');
     }
 
     return keys.reduce((acc, key, index) => {
-      const newValue = setFunction(nextBase(base, key, nextKey, withArrays), path.slice(1), values[index], withArrays);
+      const value = sameValue ? values : values[index];
+      const newValue = setFunction(nextBase(base, key, nextKey, withArrays), path.slice(1), value, {
+        withArrays,
+        sameValue,
+      });
 
       if (key < acc.length) {
         acc[key] = newValue;
@@ -77,17 +81,19 @@ const reduceWithObject = fn =>
    * @param withArrays
    * @returns {*} a set of the new elements
    */
-  (base, path, keys, nextKey, values, withArrays) => {
+  (base, path, keys, nextKey, values, { withArrays, sameValue }) => {
     if (Array.isArray(values)) {
       return keys.reduce((acc, key, index) => {
-        acc[key] = fn(nextBase(base, key, nextKey, withArrays), path.slice(1), values[index], withArrays);
+        const value = sameValue ? values : values[index];
+        acc[key] = fn(nextBase(base, key, nextKey, withArrays), path.slice(1), value, { withArrays, sameValue });
 
         return acc;
       }, {});
     }
 
     return keys.reduce((acc, key) => {
-      acc[key] = fn(nextBase(base, key, nextKey, withArrays), path.slice(1), values[key], withArrays);
+      const value = sameValue ? values : values[key];
+      acc[key] = fn(nextBase(base, key, nextKey, withArrays), path.slice(1), value, { withArrays, sameValue });
 
       return acc;
     }, {});
@@ -98,10 +104,12 @@ const reduceWithObject = fn =>
  * @param base current base
  * @param path current path
  * @param value current value
- * @param withArrays create arrays instead of object when nextKey is a number and key has no value in the current base
+ * @param config
+ *  - withArrays create arrays instead of object when nextKey is a number and key has no value in the current base
+ *  - sameValue use the same value for each element
  * @returns {*} a new instance of the given level
  */
-function set(base, path, value, withArrays) {
+function set(base, path, value, { withArrays, sameValue }) {
   if (path.length === 0) {
     return value;
   }
@@ -116,26 +124,26 @@ function set(base, path, value, withArrays) {
 
   if (isArrayKeys) {
     if (Array.isArray(currentBase)) {
-      return reduceWithArray(set)(currentBase, path, key, nextKey, value, withArrays, [...currentBase]);
+      return reduceWithArray(set)(currentBase, path, key, nextKey, value, { withArrays, sameValue }, [...currentBase]);
     }
 
     return {
       ...currentBase,
-      ...reduceWithObject(set)(currentBase, path, key, nextKey, value, withArrays, {}),
+      ...reduceWithObject(set)(currentBase, path, key, nextKey, value, { withArrays, sameValue }, {}),
     };
   }
 
   if (Array.isArray(currentBase)) {
     return [
       ...currentBase.slice(0, key),
-      set(nextBase(currentBase, key, nextKey, withArrays), path.slice(1), value, withArrays),
+      set(nextBase(currentBase, key, nextKey, withArrays), path.slice(1), value, { withArrays, sameValue }),
       ...currentBase.slice(key + 1),
     ];
   }
 
   return {
     ...currentBase,
-    [key]: set(nextBase(currentBase, key, nextKey, withArrays), path.slice(1), value, withArrays),
+    [key]: set(nextBase(currentBase, key, nextKey, withArrays), path.slice(1), value, { withArrays, sameValue }),
   };
 }
 
@@ -148,7 +156,7 @@ function set(base, path, value, withArrays) {
  * @returns {*} new instance of the base if it has been modified, the base otherwise
  */
 export default function safeSet(base, initialPath, value, options = {}) {
-  const { withArrays = false, equality, safe } = options;
+  const { withArrays = false, equality, safe = false, sameValue = false } = options;
   let path = initialPath;
 
   // Handle string path
@@ -176,5 +184,5 @@ export default function safeSet(base, initialPath, value, options = {}) {
     return base;
   }
 
-  return set(base, path, value, withArrays);
+  return set(base, path, value, { withArrays, sameValue });
 }

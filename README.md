@@ -110,6 +110,12 @@ set({}, ['a', ['b', 'c']], { b: 12, c: 13 });
 
 set({}, ['a', [0, 1 ]], [12, 13], { withArrays: true });
 // will return { a: [12, 13] }
+
+set({}, ['a', ['b', 'c']], { foo: 'bar' }, { sameValue: true });
+// will return { a: { b: { foo: 'bar' }, c: { foo: 'bar' } } }
+
+set({}, ['a', [0, 1 ]], 'foo', { withArrays: true, sameValue: true });
+// will return { a: ['foo', 'foo'] }
 ```
 - :warning: If the array of keys is not the last element of the path, the rest of the path will be used for each sub tree.
 - :warning: It's not possible to set objects in array with object sub values, this will throw an error.
