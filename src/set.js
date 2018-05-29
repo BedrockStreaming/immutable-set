@@ -1,23 +1,4 @@
-/**
- * Recursive equality tester. Return true if the top down element of the path in the base is equal to the given value
- * @param base current base
- * @param path current path
- * @param value value to verify
- * @param equality override the equality assertion
- * @returns {boolean} true if the value is in the base at the end of the path
- */
-function recursiveEqual(base, path, value, equality) {
-  if (!base || typeof base !== 'object') {
-    return false;
-  }
-  const [key, nextKey] = path;
-
-  if (nextKey === undefined) {
-    return equality ? equality(base[key], value) : base[key] === value;
-  }
-
-  return recursiveEqual(base[key], path.slice(1), value, equality);
-}
+import { recursiveEqual, isSafe } from './utils';
 
 /**
  * Compute next base in recursion
@@ -156,7 +137,7 @@ function set(base, path, value, { withArrays, sameValue }) {
  * @returns {*} new instance of the base if it has been modified, the base otherwise
  */
 export default function safeSet(base, initialPath, value, options = {}) {
-  const { withArrays = false, equality, safe = false, sameValue = false } = options;
+  const { withArrays = false, equality, sameValue = false } = options;
   let path = initialPath;
 
   // Handle string path
@@ -180,7 +161,7 @@ export default function safeSet(base, initialPath, value, options = {}) {
   }
 
   // If the value is already here we just need to return the base
-  if (safe && recursiveEqual(base, path, value, equality)) {
+  if (isSafe(value, options) && recursiveEqual(base, path, value, equality)) {
     return base;
   }
 
