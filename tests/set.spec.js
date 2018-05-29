@@ -157,6 +157,35 @@ describe('multiple set', () => {
     expect(set(base, path, values)).toEqual(expected);
   });
 
+  it('should set objects in object with same object sub value', () => {
+    const base = freeze({
+      a: {
+        b: {
+          1: { id: 1 },
+          2: { id: 2 },
+          3: { id: 3 },
+        },
+      },
+    });
+
+    const expected = {
+      a: {
+        b: {
+          1: { id: 1 },
+          2: { foo: 'bar' },
+          3: { id: 3 },
+          4: { foo: 'bar' },
+          c: { foo: 'bar' },
+        },
+      },
+    };
+
+    const path = ['a', 'b', ['2', '4', 'c']];
+    const value = { foo: 'bar' };
+
+    expect(set(base, path, value, { sameValue: true })).toEqual(expected);
+  });
+
   it('should set objects in object with array sub values', () => {
     const base = freeze({
       a: {
@@ -223,5 +252,24 @@ describe('multiple set', () => {
     const values = [{ id: 2, foo: 'bar' }, { id: 4 }, { id: 'c' }];
 
     expect(set(base, path, values)).toEqual(expected);
+  });
+
+  it('should set objects in array with same array sub value', () => {
+    const base = freeze({
+      a: {
+        b: [{ id: 1 }, { id: 2 }, { id: 3 }],
+      },
+    });
+
+    const expected = {
+      a: {
+        b: [{ id: 1 }, { foo: 'bar' }, { id: 3 }, { foo: 'bar' }, { foo: 'bar' }],
+      },
+    };
+
+    const path = ['a', 'b', [1, 3, 8]];
+    const value = { foo: 'bar' };
+
+    expect(set(base, path, value, { sameValue: true })).toEqual(expected);
   });
 });

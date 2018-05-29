@@ -42,6 +42,7 @@ name | description | type | default
 withArray | if set to `true` number will be interpreted has array indexes | boolean | false
 equality  | if provided, the function will be used to determine if the value at the path is equal to the value provided | function | `===`
 safe | verify if the value does not already exist | boolean | false
+sameValue | use same value for each nested property in case of multi set | boolean | false
 
 
 ## Usage
@@ -101,15 +102,25 @@ set(base, 'a', { id: 1, v: 1 }, { safe: true, equality);
 
 ### multiple set
 It is possible to set multiple elements at once, providing multiple keys in the path and an array (or an object) in value.
+
 ```js
 set({}, ['a', ['b', 'c']], [12, 13]);
 // or
 set({}, ['a', ['b', 'c']], { b: 12, c: 13 });
 // will return { a: { b: 12, c: 13 } }
 
-
 set({}, ['a', [0, 1 ]], [12, 13], { withArrays: true });
 // will return { a: [12, 13] }
+```
+
+It's also possible to set multiple elements at once with the same value by setting `sameValue: true` in options.
+
+```js
+set({}, ['a', ['b', 'c']], { foo: 'bar' }, { sameValue: true });
+// will return { a: { b: { foo: 'bar' }, c: { foo: 'bar' } } }
+
+set({}, ['a', [0, 1 ]], 'foo', { withArrays: true, sameValue: true });
+// will return { a: ['foo', 'foo'] }
 ```
 - :warning: If the array of keys is not the last element of the path, the rest of the path will be used for each sub tree.
 - :warning: It's not possible to set objects in array with object sub values, this will throw an error.
