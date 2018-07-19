@@ -87,8 +87,13 @@ describe('simple set', () => {
   });
 
   it('should not modify the base if the value is already there', () => {
+    const base = { foo: true };
+    expect(set(base, 'foo', true)).toBe(base);
+  });
+
+  it('should not modify the base if the value is already there in nested context', () => {
     const foo = { a: { b: [3] } };
-    expect(set(foo, ['a', 'b', 0], 3, { safe: true })).toBe(foo);
+    expect(set(foo, ['a', 'b', 0], 3)).toBe(foo);
   });
 
   it('should reform object', () => {
