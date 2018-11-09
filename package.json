@@ -5,6 +5,7 @@
   "main": "lib/set.js",
   "author": "M6Web",
   "license": "MIT",
+  "keywords": ["set", "immutable", "state", "react", "redux"],
   "repository": {
     "type": "git",
     "url": "https://github.com/M6Web/immutable-set.git"
