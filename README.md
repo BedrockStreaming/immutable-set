@@ -19,7 +19,7 @@ newState === state        // false
 newState.b === state.b    // false
 newState.a === state.a    // true
 ``` 
-That exactly what does our `set` function, 
+That's exactly what our `set` function does.
 
 ## Setup
 Add the dependency to your project:
@@ -32,9 +32,9 @@ yarn add immutable-set
 name | description | type | requiered
 ---- | ----------- | ---- | ---------
 base | object to modify | object | ✅
-path | list of keys to access the value to being modified | array or string | ✅
+path | list of keys to access the value to modify | array or string | ✅
 value | value to set | any | ✅
-options | options... | object
+options | options… | object
 
 ### Options
 name | description | type | default
@@ -46,7 +46,7 @@ sameValue | use same value for each nested property in case of multi set | boole
 
 
 ## Usage
-Import `set` function
+Import the `set` function
 
 ```js
 import set from 'immutable-set';
@@ -63,7 +63,7 @@ const newState = set(state, 'a.b', 42);
                a: {
                  b: 42,
                },
-               ...
+               …
              }
  */
 ```
@@ -88,7 +88,7 @@ set(base, 'a', 2, { safe: true })
 ```
 
 ### equality
-The option `equality` allow to use an other equality function instead of `===`. It has to be used with `safe` option.
+The option `equality` allows using another equality function instead of `===`. It has to be used with the `safe` option.
 ```js
 const base = { a: { id: 1, v: 0 } };
 const equality = (a, b) => a.id === b.id && a.v === b.v };
