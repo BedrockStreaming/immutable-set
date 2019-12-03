@@ -23,11 +23,10 @@
     "release": "yarn lint && yarn test && yarn build && yarn version"
   },
   "devDependencies": {
-    "babel-cli": "6.26.0",
-    "babel-plugin-transform-object-rest-spread": "6.26.0",
-    "babel-preset-es2015": "6.24.1",
+    "@babel/cli": "7.7.4",
+    "@babel/preset-env": "7.7.4",
+    "@m6web/eslint-plugin": "2.0.0",
     "deep-freeze": "0.0.1",
-    "eslint-tools-m6web": "1.2.0",
-    "jest": "23.4.1"
+    "jest": "24.9.0"
   }
 }
