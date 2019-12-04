@@ -22,7 +22,7 @@
     "test": "jest",
     "preversion": "yarn test && yarn lint",
     "version": "yarn build",
-    "postversion": "git push --tags"
+    "postversion": "git push && git push --tags"
   },
   "devDependencies": {
     "@babel/cli": "7.7.4",
