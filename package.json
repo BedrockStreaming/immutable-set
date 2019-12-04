@@ -1,11 +1,17 @@
 {
   "name": "immutable-set",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "Set nested properties of an object while respecting the principles of immutability",
   "main": "lib/set.js",
   "author": "M6Web",
   "license": "MIT",
-  "keywords": ["set", "immutable", "state", "react", "redux"],
+  "keywords": [
+    "set",
+    "immutable",
+    "state",
+    "react",
+    "redux"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/M6Web/immutable-set.git"
