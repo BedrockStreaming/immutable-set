@@ -20,7 +20,9 @@
     "format": "prettier-eslint --write src/**/*.js tests/**/*.js",
     "lint": "eslint src/**/*.js tests/**/*.js",
     "test": "jest",
-    "release": "yarn lint && yarn test && yarn build && yarn version"
+    "preversion": "yarn test && yarn lint",
+    "version": "yarn build",
+    "postversion": "git push && git push --tags"
   },
   "devDependencies": {
     "@babel/cli": "7.7.4",

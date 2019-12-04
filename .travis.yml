@@ -1,11 +1,17 @@
 language: node_js
 node_js:
- - "8"
- - "10"
-
+- '8'
+- '10'
 cache: yarn
-
 script:
-  - yarn run lint
-  - yarn run test
-  - yarn run build
+- yarn run lint
+- yarn run test
+- yarn run build
+deploy:
+  provider: npm
+  email: florent.lepretre@gmail.com
+  api_key:
+    secure: GMQNSkpopdYph++3QOWkztCuUPyEtzfVmpVWUGhJyWsnzxHiRszFbCHwpKMXmqguzSW/r9mQ7raALzufOHgn0jTA4e/bD1zQSDtY0umhdEfidEOcvBe74K0PGfMIsDlRM7hcJqT1SvLOTrzBuKSoYhnp1/jE0Iz/VBDeLmAAiY/88tan3FUKNd8yZgSd2bERiUPR4OQq04BEc1J6LErNWkvSDU1VvJpoP7z4D1JlZFjsUYG62H4H9cu5QWOxNup/hnC/jeoFsY9nukfHduV1W6KfZkC7XnxZr63/sN3tr3gMTI3i6iQeuF8KWwoP2ZSkOI4bHlE96wiNSVWB1iRYBQBGQL/qBA6lTfAkvJEFl5XX53VJd5y862ratqZllO5CUbUHfBqtPk1UL94h2iysDiXnmbNH4Uo+6qxOW9cuvoew43waQFyeAskULK964yR4HQoRfXlYZD3itsK8sxLgXExASO6M6JZCVQxHp69JZsxEk30tY3BJbawixUyFzeFOQhQQv/WKOF2iAuK6UwJy3Iw96wEcx9nfO8MLe5llN0pKCYSqbwXivQKT+f9nxxUlMRiK7z222Z94Kcl1VvB+HtIdZb5SeONu52iAL3PSjiwazWMwYQshqO/UChV4IWRcXEtU3MTItCg/gcWjeTOc9TvPViMGtTH8BzxpZXbOHfY=
+  on:
+    tags: true
+    repo: M6Web/immutable-set
