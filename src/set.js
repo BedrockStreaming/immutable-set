@@ -118,7 +118,7 @@ function set(base, path, value, { withArrays, sameValue }) {
     return [
       ...currentBase.slice(0, key),
       set(nextBase(currentBase, key, nextKey, withArrays), path.slice(1), value, { withArrays, sameValue }),
-      ...currentBase.slice(key + 1),
+      ...currentBase.slice(parseInt(key) + 1),
     ];
   }
 
