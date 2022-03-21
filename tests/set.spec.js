@@ -277,4 +277,23 @@ describe('multiple set', () => {
 
     expect(set(base, path, value, { sameValue: true })).toEqual(expected);
   });
+
+  it('should set objects through an array', () => {
+    const base = freeze({
+      a: {
+        b: [{ id: 1, next: 1 }, { id: 2, next: 1 }, { id: 3, next: 1 }, { id: 4, next: 1 }],
+      },
+    });
+
+    const expected = {
+      a: {
+        b: [{ id: 1, next: 1 }, { id: 2, next: 2 }, { id: 3, next: 1 }, { id: 4, next: 1 }],
+      },
+    };
+
+    const path = 'a.b.1.next';
+    const value = 2;
+
+    expect(set(base, path, value)).toEqual(expected);
+  });
 });
