@@ -1,5 +1,5 @@
-![build status](https://travis-ci.org/M6Web/immutable-set.svg)
-# Immutable set
+# Immutable set [![Coverage Status](https://coveralls.io/repos/github/BedrockStreaming/immutable-set/badge.svg?branch=master)](https://coveralls.io/github/BedrockStreaming/immutable-set?branch=master)
+
 
 This tools aims to facilitate the modification of nested property while preserving immutable principles.
 Lets say you have the given object:
