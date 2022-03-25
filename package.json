@@ -26,6 +26,7 @@
     "format": "prettier-eslint --write src/**/*.js tests/**/*.js",
     "lint": "eslint src/**/*.js tests/**/*.js",
     "test": "jest",
+    "test:ci": "yarn jest --coverage",
     "preversion": "yarn test && yarn lint",
     "version": "yarn build",
     "postversion": "git push && git push --tags"
