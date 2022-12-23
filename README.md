@@ -1,5 +1,4 @@
-# Immutable set [![Coverage Status](https://coveralls.io/repos/github/BedrockStreaming/immutable-set/badge.svg?branch=master)](https://coveralls.io/github/BedrockStreaming/immutable-set?branch=master)
-
+# Immutable set [![Coverage Status](https://coveralls.io/repos/github/BedrockStreaming/immutable-set/badge.svg?branch=master)](https://coveralls.io/github/BedrockStreaming/immutable-set?branch=master) [![Mutation testing badge](https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2FBedrockStreaming%2Fimmutable-set%2Fmaster)](https://dashboard.stryker-mutator.io/reports/github.com/BedrockStreaming/immutable-set/master)
 
 This tools aims to facilitate the modification of nested property while preserving immutable principles.
 Lets say you have the given object:
